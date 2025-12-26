@@ -476,7 +476,7 @@ html, body {
 }
 
 /* HEADING */
-#text-msg h1{
+#right6 h1{
    font-size: 9vw;
   font-weight: 400;
   line-height: 10vw;
@@ -487,14 +487,14 @@ html, body {
   margin-top: 6vw;
 }
 
-/* WRAP */
+/* WRAP
 .contact-wrap{
   margin-top: 10vw;
   display: flex;
   gap: 16vw;
 }
 
-/* LEFT FORM */
+
 .contact-form{
   width: 65%;
 }
@@ -533,7 +533,7 @@ html, body {
   color: #aaa;
 }
 
-/* RIGHT LINKS */
+
 .contact-links{
   width: 35%;
   display: flex;
@@ -561,4 +561,4 @@ html, body {
   border-radius: 20px;
   font-size: 1.2vw;
   font-family: Saira;
-}
+} */
