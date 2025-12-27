@@ -1,5 +1,8 @@
-- [ ] Fix main height setting in script.js to prevent conflicts with Locomotive Scroll
-- [ ] Adjust scroll limit logic to prevent infinite scrolling at the end
-- [ ] Add error handling for Locomotive Scroll initialization
-- [ ] Ensure proper ScrollTrigger refresh on load
-- [ ] Test page reload and responsiveness
+# TODO: Fix Responsiveness for Small Screen Sizes
+
+- [x] Enhance media queries for better layout stacking and readability
+- [x] Adjust font sizes and spacing for small screens
+- [x] Fix positioning issues for absolute elements on mobile
+- [x] Ensure no horizontal scrolling and proper element visibility
+- [x] Add breakpoint for very small devices (320px)
+- [x] Test and verify changes across different screen sizes
