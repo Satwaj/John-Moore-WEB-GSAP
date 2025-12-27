@@ -35,13 +35,13 @@ ScrollTrigger.scrollerProxy("#main", {
 if (scroll) {
   gsap.to("#div-img img", {
     scale: 1,
-    ease: "none",
+    ease: "power2.out",
     scrollTrigger: {
-      trigger: "#div-img",
+      trigger: "#page2",
       scroller: "#main",
-      start: "top bottom",
-      end: "bottom top",
-      scrub: true
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 5
     }
   });
 
