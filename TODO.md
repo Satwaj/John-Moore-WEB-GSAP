@@ -1,0 +1,5 @@
+- [ ] Fix main height setting in script.js to prevent conflicts with Locomotive Scroll
+- [ ] Adjust scroll limit logic to prevent infinite scrolling at the end
+- [ ] Add error handling for Locomotive Scroll initialization
+- [ ] Ensure proper ScrollTrigger refresh on load
+- [ ] Test page reload and responsiveness

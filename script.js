@@ -1,9 +1,17 @@
 gsap.registerPlugin(ScrollTrigger);
 
-const scroll = new LocomotiveScroll({
-  el: document.querySelector("#main"),
-  smooth: true
-});
+let scroll; // Declare scroll variable globally
+
+try {
+  scroll = new LocomotiveScroll({
+    el: document.querySelector("#main"),
+    smooth: true
+  });
+} catch (error) {
+  console.error("Error initializing Locomotive Scroll:", error);
+  // Fallback to normal scrolling if Locomotive fails
+  document.body.style.overflow = "auto";
+}
 
 scroll.on("scroll", ScrollTrigger.update);
 
@@ -24,31 +32,33 @@ ScrollTrigger.scrollerProxy("#main", {
   pinType: document.querySelector("#main").style.transform ? "transform" : "fixed"
 });
 
-gsap.to("#div-img img", {
-  scale: 1,
-  ease: "none",
-  scrollTrigger: {
-    trigger: "#div-img",
-    scroller: "#main",
-    start: "top bottom",
-end: "bottom top",
-    scrub: true
-  }
-});
+if (scroll) {
+  gsap.to("#div-img img", {
+    scale: 1,
+    ease: "none",
+    scrollTrigger: {
+      trigger: "#div-img",
+      scroller: "#main",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  });
 
-// Pin the aside on page 3 using #main as scroller
-ScrollTrigger.create({
-  trigger: "#page3",
-  scroller: "#main", // Use the main scroller
-  start: "top top",
-  end: "bottom top",
-  pin: "#aside",
-  pinSpacing: false
-});
+  // Pin the aside on page 3 using #main as scroller
+  ScrollTrigger.create({
+    trigger: "#page3",
+    scroller: "#main", // Use the main scroller
+    start: "top top",
+    end: "bottom top",
+    pin: "#aside",
+    pinSpacing: false
+  });
 
-// Refresh ScrollTrigger after setup
-ScrollTrigger.addEventListener("refresh", () => scroll.update());
-ScrollTrigger.refresh();
+  // Refresh ScrollTrigger after setup
+  ScrollTrigger.addEventListener("refresh", () => scroll.update());
+  ScrollTrigger.refresh();
+}
 // IDs for all buttons (Page 1 top and Page 3 aside)
 const buttonToSectionMap = {
   'btn-about': '#right1',      // Page 1 top button
@@ -66,7 +76,7 @@ const buttonToSectionMap = {
 // Add event listeners to all buttons
 Object.keys(buttonToSectionMap).forEach(buttonId => {
   const button = document.getElementById(buttonId);
-  if (button) {
+  if (button && scroll) {
     button.addEventListener('click', () => {
       const sectionId = buttonToSectionMap[buttonId];
       scroll.scrollTo(sectionId);
@@ -74,29 +84,41 @@ Object.keys(buttonToSectionMap).forEach(buttonId => {
   }
 });
 
-const right6 = document.querySelector("#right6");
+// Remove the scroll limit logic that causes infinite scrolling
+// const right6 = document.querySelector("#right6");
 
-scroll.on("scroll", (obj) => {
-  const scrollY = obj.scroll.y;
-  const limit = right6.offsetTop + right6.offsetHeight - window.innerHeight;
+// scroll.on("scroll", (obj) => {
+//   const scrollY = obj.scroll.y;
+//   const limit = right6.offsetTop + right6.offsetHeight - window.innerHeight;
 
-  if (scrollY > limit) {
-    scroll.scrollTo(limit);
-  }
+//   if (scrollY > limit) {
+//     scroll.scrollTo(limit);
+//   }
+// });
+window.addEventListener("load", () => {
+  // Delay execution to ensure DOM is fully ready
+  setTimeout(() => {
+    const main = document.querySelector("#main");
+    const right6 = document.querySelector("#right6");
+
+    if (main && right6) {
+      // Calculate total height of all content
+      const totalHeight = document.body.scrollHeight;
+      main.style.height = totalHeight + "px";
+
+      if (scroll) {
+        scroll.update(); // locomotive refresh
+        ScrollTrigger.refresh(); // Also refresh ScrollTrigger
+      }
+    }
+  }, 200); // Increased delay
 });
- window.addEventListener("load", () => {
-  const main = document.querySelector("#main");
-  const right6 = document.querySelector("#right6");
 
-  const endPoint =
-    right6.getBoundingClientRect().top +
-    right6.offsetHeight +
-    window.scrollY;
-
-  main.style.height = endPoint + "px";
-
+// Add resize handler for responsiveness
+window.addEventListener("resize", () => {
   if (scroll) {
-    scroll.update(); // locomotive refresh
+    scroll.update();
+    ScrollTrigger.refresh();
   }
 });
 
